@@ -1,0 +1,50 @@
+@import '../../../styles'
+
+.mat-toolbar
+  border-bottom: 1px solid darken($light-grey, 10)
+  .nav-spacer
+    flex: 1 1 auto
+
+  .nav-item
+    margin-left: 10px
+
+  a
+    color: #000
+    text-decoration: none
+    padding: 10px
+    border-radius: 3px
+    &:hover
+      text-decoration: underline
+      background-color: darken($light-grey, 5)
+
+  a.logo-wrapper
+    top: 32px
+    left: 50px
+    width: 210px
+    height: auto
+    &:hover
+      background-color: inherit
+
+  .nav-desktop
+    display: none
+
+  .nav-mobile
+
+    &.mat-toolbar-row
+      margin-bottom: 20px
+
+      ul
+        list-style: none
+        margin: 0
+        padding: 0
+        li
+          margin: 10px
+          a
+            margin: 0
+
+@media (min-width: 768px)
+  .nav-mobile
+    display: none
+
+  .nav-desktop
+    display: block !important
