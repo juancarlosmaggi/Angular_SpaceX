@@ -2,7 +2,7 @@ schema:
   - https://api.spacex.land/graphql/
 
 documents:
-  - src/app/graphql/queries/*.graphql
+  - src/app/components/**/*.graphql
 
 generates:
   ./src/app/services/spacexGraphql.services.ts:

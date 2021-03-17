@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationModule } from './navigation/navigation.module';
 import { PagesModule } from './pages/pages.module';
-import { GraphQLModule } from './graphql/graphql.module';
+import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

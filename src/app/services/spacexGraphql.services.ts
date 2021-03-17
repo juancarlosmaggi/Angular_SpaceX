@@ -1325,85 +1325,39 @@ export type CoreMission = {
   flight?: Maybe<Scalars['Int']>;
 };
 
-export type LaunchesPastQueryVariables = Exact<{
+export type LaunchesPastListQueryVariables = Exact<{
   limit: Scalars['Int'];
 }>;
 
 
-export type LaunchesPastQuery = (
+export type LaunchesPastListQuery = (
   { __typename?: 'Query' }
   & { launchesPast?: Maybe<Array<Maybe<(
     { __typename?: 'Launch' }
-    & Pick<Launch, 'mission_name' | 'launch_date_local'>
-    & { launch_site?: Maybe<(
-      { __typename?: 'LaunchSite' }
-      & Pick<LaunchSite, 'site_name_long'>
-    )>, links?: Maybe<(
+    & Pick<Launch, 'id' | 'mission_name' | 'launch_date_utc'>
+    & { links?: Maybe<(
       { __typename?: 'LaunchLinks' }
-      & Pick<LaunchLinks, 'article_link' | 'video_link'>
+      & Pick<LaunchLinks, 'flickr_images' | 'mission_patch_small'>
     )>, rocket?: Maybe<(
       { __typename?: 'LaunchRocket' }
       & Pick<LaunchRocket, 'rocket_name'>
-      & { first_stage?: Maybe<(
-        { __typename?: 'LaunchRocketFirstStage' }
-        & { cores?: Maybe<Array<Maybe<(
-          { __typename?: 'LaunchRocketFirstStageCore' }
-          & Pick<LaunchRocketFirstStageCore, 'flight'>
-          & { core?: Maybe<(
-            { __typename?: 'Core' }
-            & Pick<Core, 'reuse_count' | 'status'>
-          )> }
-        )>>> }
-      )>, second_stage?: Maybe<(
-        { __typename?: 'LaunchRocketSecondStage' }
-        & { payloads?: Maybe<Array<Maybe<(
-          { __typename?: 'Payload' }
-          & Pick<Payload, 'payload_type' | 'payload_mass_kg' | 'payload_mass_lbs'>
-        )>>> }
-      )> }
-    )>, ships?: Maybe<Array<Maybe<(
-      { __typename?: 'Ship' }
-      & Pick<Ship, 'name' | 'home_port' | 'image'>
-    )>>> }
+    )> }
   )>>> }
 );
 
-export const LaunchesPastDocument = gql`
-    query launchesPast($limit: Int!) {
+export const LaunchesPastListDocument = gql`
+    query launchesPastList($limit: Int!) {
   launchesPast(limit: $limit) {
+    id
     mission_name
-    launch_date_local
-    launch_site {
-      site_name_long
-    }
     links {
-      article_link
-      video_link
+      flickr_images
+      mission_patch_small
     }
     rocket {
       rocket_name
-      first_stage {
-        cores {
-          flight
-          core {
-            reuse_count
-            status
-          }
-        }
-      }
-      second_stage {
-        payloads {
-          payload_type
-          payload_mass_kg
-          payload_mass_lbs
-        }
-      }
     }
-    ships {
-      name
-      home_port
-      image
-    }
+    launch_date_utc
   }
 }
     `;
@@ -1411,8 +1365,8 @@ export const LaunchesPastDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class LaunchesPastGQL extends Apollo.Query<LaunchesPastQuery, LaunchesPastQueryVariables> {
-    document = LaunchesPastDocument;
+  export class LaunchesPastListGQL extends Apollo.Query<LaunchesPastListQuery, LaunchesPastListQueryVariables> {
+    document = LaunchesPastListDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
