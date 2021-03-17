@@ -10,4 +10,8 @@ import { AboutModule } from './about/about.module';
   declarations: [],
   imports: [CommonModule, MatCardModule, HomeModule, AboutModule],
 })
+/**
+ * Utilit class used to load all the individual pages onto the App.
+ * This way we do not clutter the app.module.ts
+ */
 export class PagesModule {}

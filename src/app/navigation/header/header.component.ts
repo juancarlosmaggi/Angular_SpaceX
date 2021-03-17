@@ -13,7 +13,10 @@ export class HeaderComponent implements OnInit {
     this.showMobileMenu = false;
   }
 
-  toggleMobileMenu() {
+  /**
+   * Toggle mobile menu visibility.
+   */
+  toggleMobileMenu(): void {
     this.showMobileMenu = !this.showMobileMenu;
   }
 
