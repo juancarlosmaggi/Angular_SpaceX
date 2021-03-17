@@ -1327,6 +1327,7 @@ export type CoreMission = {
 
 export type LaunchesPastListQueryVariables = Exact<{
   limit: Scalars['Int'];
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -1334,10 +1335,10 @@ export type LaunchesPastListQuery = (
   { __typename?: 'Query' }
   & { launchesPast?: Maybe<Array<Maybe<(
     { __typename?: 'Launch' }
-    & Pick<Launch, 'id' | 'mission_name' | 'launch_date_utc'>
+    & Pick<Launch, 'id' | 'mission_name' | 'launch_date_utc' | 'launch_success'>
     & { links?: Maybe<(
       { __typename?: 'LaunchLinks' }
-      & Pick<LaunchLinks, 'flickr_images' | 'mission_patch_small'>
+      & Pick<LaunchLinks, 'mission_patch_small' | 'video_link'>
     )>, rocket?: Maybe<(
       { __typename?: 'LaunchRocket' }
       & Pick<LaunchRocket, 'rocket_name'>
@@ -1346,18 +1347,19 @@ export type LaunchesPastListQuery = (
 );
 
 export const LaunchesPastListDocument = gql`
-    query launchesPastList($limit: Int!) {
-  launchesPast(limit: $limit) {
+    query launchesPastList($limit: Int!, $offset: Int) {
+  launchesPast(limit: $limit, offset: $offset) {
     id
     mission_name
     links {
-      flickr_images
       mission_patch_small
+      video_link
     }
     rocket {
       rocket_name
     }
     launch_date_utc
+    launch_success
   }
 }
     `;
