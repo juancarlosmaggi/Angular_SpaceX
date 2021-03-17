@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { LaunchesPastListGQL } from '../../services/spacexGraphql.services';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -6,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   selector: 'app-launches-past-list',
   templateUrl: './launches-past-list.component.html',
   styleUrls: ['./launches-past-list.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchesPastListComponent implements OnInit {
   loading = true;
@@ -18,7 +24,8 @@ export class LaunchesPastListComponent implements OnInit {
 
   constructor(
     private launchesPastListService: LaunchesPastListGQL,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private changeDetect: ChangeDetectorRef
   ) {}
 
   /**
@@ -28,6 +35,7 @@ export class LaunchesPastListComponent implements OnInit {
     this.launchesPastListQuery.valueChanges.subscribe(({ data, loading }) => {
       this.loading = loading;
       this.launchesPastList = data.launchesPast!;
+      this.update();
     });
   }
 
@@ -68,5 +76,10 @@ export class LaunchesPastListComponent implements OnInit {
       },
     });
     this.launchesPastList = [...this.launchesPastList, ...data.launchesPast!];
+    this.update();
+  }
+
+  update() {
+    this.changeDetect.detectChanges();
   }
 }
