@@ -1,9 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { map } from 'rxjs/operators';
-import {
-  LaunchesPastListGQL,
-  LaunchesPastListQuery,
-} from '../../services/spacexGraphql.services';
+import { LaunchesPastListGQL } from '../../services/spacexGraphql.services';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -12,8 +8,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./launches-past-list.component.sass'],
 })
 export class LaunchesPastListComponent implements OnInit {
-  loading: boolean = true;
-  limit: number = 5;
+  loading = true;
+  limit = 5;
   launchesPastListQuery = this.launchesPastListService.watch({
     limit: this.limit,
     offset: 0,
@@ -25,6 +21,9 @@ export class LaunchesPastListComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {}
 
+  /**
+   * On initialization we are fetching data from the GraphQL server.
+   */
   ngOnInit(): void {
     this.launchesPastListQuery.valueChanges.subscribe(({ data, loading }) => {
       this.loading = loading;
@@ -32,24 +31,42 @@ export class LaunchesPastListComponent implements OnInit {
     });
   }
 
+  /**
+   * Utility function that allows Angular to take a youtube URL and
+   * convert it onto a youtube embed url that is usable in iframe format.
+   * We are trusting the video url source.
+   *
+   * @param url string
+   * @returns any
+   */
   sanitizeVideoURL(url: string): any {
     url = url.replace('youtube.com/', 'youtube.com/embed/');
     url = url.replace('youtu.be/', 'youtube.com/embed/');
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
+  /**
+   * Uility function used to take the UTC date string and convert it
+   * human readable text to view
+   *
+   * @param dateStr string
+   * @returns string
+   */
   getLocalDateFormat(dateStr: string): string {
     const date = new Date(dateStr);
     return date.toLocaleString();
   }
 
-  async fetchMore() {
-    let { data } = await this.launchesPastListQuery.fetchMore({
+  /**
+   * Async function that fetches more data from the Query and appends
+   * the new data onto the existing data. Pagination occurs here.
+   */
+  async fetchMore(): Promise<void> {
+    const { data } = await this.launchesPastListQuery.fetchMore({
       variables: {
         offset: this.launchesPastList.length,
       },
     });
-    debugger;
     this.launchesPastList = [...this.launchesPastList, ...data.launchesPast!];
   }
 }
