@@ -83,6 +83,10 @@ export class LaunchesPastListComponent implements OnInit {
     this.update();
   }
 
+  /**
+   * Form returned select data, use the new data and filter the results on the
+   * GraphQL Query accordingly.
+   */
   async formChange(formData: {
     rocketId: string;
     shipId: string;
@@ -100,7 +104,10 @@ export class LaunchesPastListComponent implements OnInit {
     this.update();
   }
 
-  update() {
+  /**
+   * Push changes to the UI.
+   */
+  update(): void {
     this.changeDetect.detectChanges();
   }
 }

@@ -16,12 +16,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LaunchDetailComponent implements OnInit {
   loading = true;
+
+  // ID fetched from the route.
   id = this.route.snapshot.params.id;
+
+  // Query used to fetch info.
   launchDetailQuery = this.launcheDetailService.watch({
     id: this.id,
   });
+
+  // Launch Details object, graphQL response will be held here.
   launch = {};
-  JSON = JSON;
 
   constructor(
     private launcheDetailService: LaunchDetailGQL,
@@ -67,7 +72,10 @@ export class LaunchDetailComponent implements OnInit {
     return date.toLocaleString();
   }
 
-  update() {
+  /**
+   * Push changes to the UI.
+   */
+  update(): void {
     this.changeDetect.detectChanges();
   }
 }

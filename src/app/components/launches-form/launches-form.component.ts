@@ -16,13 +16,21 @@ import { LauchesFormSelectsGQL } from '../../services/spacexGraphql.services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchesFormComponent implements OnInit {
-  @Output() formChange = new EventEmitter();
   loading = false;
+
+  // Used to inform Parent of event occurring.
+  @Output() formChange = new EventEmitter();
+
+  // Initializing Angular forms.
   launchesForm = new FormGroup({
     rocketId: new FormControl(''),
     shipId: new FormControl(''),
   });
+
+  // Query used to fetch info.
   launchDetailQuery = this.launchesFormSelectService.watch();
+
+  // Arrays that will hold values from the GraphQL server.
   ships: any[] = [];
   rockets: any[] = [];
 
@@ -31,6 +39,9 @@ export class LaunchesFormComponent implements OnInit {
     private changeDetect: ChangeDetectorRef
   ) {}
 
+  /**
+   * On initialization we are fetching data from the GraphQL server.
+   */
   ngOnInit(): void {
     this.launchDetailQuery.valueChanges.subscribe(({ data, loading }) => {
       this.loading = loading;
@@ -40,11 +51,17 @@ export class LaunchesFormComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  /**
+   * Form Submission, emit event to parent with Form data.
+   */
+  onSubmit(): void {
     this.formChange.emit(this.launchesForm.value);
   }
 
-  update() {
+  /**
+   * Push changes to the UI.
+   */
+  update(): void {
     this.changeDetect.detectChanges();
   }
 }

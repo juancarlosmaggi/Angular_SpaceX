@@ -12,7 +12,7 @@ import { LaunchModule } from './launch/launch.module';
   imports: [CommonModule, MatCardModule, HomeModule, LaunchModule, AboutModule],
 })
 /**
- * Utilit class used to load all the individual pages onto the App.
+ * Utility class used to load all the individual pages onto the App.
  * This way we do not clutter the app.module.ts
  */
 export class PagesModule {}
