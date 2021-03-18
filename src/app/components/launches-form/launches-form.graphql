@@ -1,0 +1,10 @@
+query lauchesFormSelects {
+  rockets {
+    id
+    name
+  }
+  ships {
+    id
+    name
+  }
+}

@@ -1,3 +1,5 @@
+@import '../../../styles'
+
 .container
   padding-top: 20px
   display: grid
@@ -6,7 +8,10 @@
   justify-content: center
 
 .mat-card
-  cursor: pointer
+  .card-list-details
+    text-align: center
+    a
+      color: lighten($night-blue, 15)
 
 .loadMoreWrapper
   padding: 25px

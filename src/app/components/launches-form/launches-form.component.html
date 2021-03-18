@@ -1,0 +1,24 @@
+<ng-container *ngIf="loading == false">
+  <section class="container">
+    <form [formGroup]="launchesForm" (ngSubmit)="onSubmit()">
+      <mat-card>
+        <label>
+          Rocket:
+          <select formControlName="rocketId">
+            <option value="">-- All --</option>
+            <option *ngFor="let rocket of rockets" value="{{rocket.id}}">{{rocket.name}}</option>
+          </select>
+        </label>
+  
+        <label>
+          Ship:
+          <select formControlName="shipId">
+            <option value="">-- All --</option>
+            <option *ngFor="let ship of ships" value="{{ship.id}}">{{ship.name}}</option>
+          </select>
+        </label>
+        &nbsp;<button type="submit">Search</button>
+      </mat-card>
+    </form>
+  </section>
+</ng-container>

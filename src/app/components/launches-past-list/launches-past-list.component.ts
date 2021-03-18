@@ -16,6 +16,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class LaunchesPastListComponent implements OnInit {
   loading = true;
   limit = 5;
+  rocket = '';
+  ship = '';
   launchesPastListQuery = this.launchesPastListService.watch({
     limit: this.limit,
     offset: 0,
@@ -73,9 +75,28 @@ export class LaunchesPastListComponent implements OnInit {
     const { data } = await this.launchesPastListQuery.fetchMore({
       variables: {
         offset: this.launchesPastList.length,
+        ship: this.ship,
+        rocket: this.rocket,
       },
     });
     this.launchesPastList = [...this.launchesPastList, ...data.launchesPast!];
+    this.update();
+  }
+
+  async formChange(formData: {
+    rocketId: string;
+    shipId: string;
+  }): Promise<void> {
+    this.rocket = formData.rocketId;
+    this.ship = formData.shipId;
+    const { data } = await this.launchesPastListQuery.fetchMore({
+      variables: {
+        offset: 0,
+        ship: this.ship,
+        rocket: this.rocket,
+      },
+    });
+    this.launchesPastList = [...data.launchesPast!];
     this.update();
   }
 

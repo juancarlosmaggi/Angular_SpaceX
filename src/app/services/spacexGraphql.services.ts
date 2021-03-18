@@ -1325,9 +1325,45 @@ export type CoreMission = {
   flight?: Maybe<Scalars['Int']>;
 };
 
+export type LaunchDetailQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type LaunchDetailQuery = (
+  { __typename?: 'Query' }
+  & { launch?: Maybe<(
+    { __typename?: 'Launch' }
+    & Pick<Launch, 'id' | 'mission_name' | 'launch_success' | 'details' | 'launch_date_utc'>
+    & { links?: Maybe<(
+      { __typename?: 'LaunchLinks' }
+      & Pick<LaunchLinks, 'flickr_images' | 'video_link' | 'mission_patch_small'>
+    )>, rocket?: Maybe<(
+      { __typename?: 'LaunchRocket' }
+      & Pick<LaunchRocket, 'rocket_name'>
+    )> }
+  )> }
+);
+
+export type LauchesFormSelectsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LauchesFormSelectsQuery = (
+  { __typename?: 'Query' }
+  & { rockets?: Maybe<Array<Maybe<(
+    { __typename?: 'Rocket' }
+    & Pick<Rocket, 'id' | 'name'>
+  )>>>, ships?: Maybe<Array<Maybe<(
+    { __typename?: 'Ship' }
+    & Pick<Ship, 'id' | 'name'>
+  )>>> }
+);
+
 export type LaunchesPastListQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset?: Maybe<Scalars['Int']>;
+  rocket?: Maybe<Scalars['String']>;
+  ship?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1346,9 +1382,66 @@ export type LaunchesPastListQuery = (
   )>>> }
 );
 
+export const LaunchDetailDocument = gql`
+    query LaunchDetail($id: ID!) {
+  launch(id: $id) {
+    id
+    mission_name
+    launch_success
+    details
+    links {
+      flickr_images
+      video_link
+      mission_patch_small
+    }
+    rocket {
+      rocket_name
+    }
+    launch_date_utc
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LaunchDetailGQL extends Apollo.Query<LaunchDetailQuery, LaunchDetailQueryVariables> {
+    document = LaunchDetailDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LauchesFormSelectsDocument = gql`
+    query lauchesFormSelects {
+  rockets {
+    id
+    name
+  }
+  ships {
+    id
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LauchesFormSelectsGQL extends Apollo.Query<LauchesFormSelectsQuery, LauchesFormSelectsQueryVariables> {
+    document = LauchesFormSelectsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const LaunchesPastListDocument = gql`
-    query launchesPastList($limit: Int!, $offset: Int) {
-  launchesPast(limit: $limit, offset: $offset) {
+    query launchesPastList($limit: Int!, $offset: Int, $rocket: String, $ship: String) {
+  launchesPast(
+    limit: $limit
+    offset: $offset
+    find: {rocket_id: $rocket, ship: $ship}
+  ) {
     id
     mission_name
     links {

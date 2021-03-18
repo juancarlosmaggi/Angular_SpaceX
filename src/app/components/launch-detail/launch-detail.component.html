@@ -1,10 +1,8 @@
-<app-launches-form (formChange)="formChange($event)"></app-launches-form>
-
 <ng-container *ngIf="loading == false">
   <section class="container">
 
     <!-- Iterate through each launch item -->
-    <mat-card *ngFor="let launch of launchesPastList">
+    <mat-card>
 
       <!-- Begin Card Header -->
       <mat-card-header>
@@ -41,15 +39,8 @@
         {{ launch.launch_success ? "Success!" : "Failure"}}
       </p>
 
-      <div class="card-list-details">
-        <a routerLink="/launch/{{ launch.id }}">Click here for more details</a>
-      </div>
+      <p>{{ launch.details }}</p>
     </mat-card>
   </section>
-
-  <!-- Button to get more data from the graphql backend -->
-  <div class="loadMoreWrapper">
-    <button (click)="fetchMore()">Load More Data</button>
-  </div>
   
 </ng-container>
