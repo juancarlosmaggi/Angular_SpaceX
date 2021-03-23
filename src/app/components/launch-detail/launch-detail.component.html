@@ -6,12 +6,12 @@
 
       <!-- Begin Card Header -->
       <mat-card-header>
-        <img *ngIf="launch.links.mission_patch_small"
+        <img *ngIf="launch.links?.mission_patch_small"
           height="50"
           width="50"
           mat-card-avatar
           loading="lazy"
-          [src]="launch.links.mission_patch_small"
+          [src]="launch.links?.mission_patch_small"
           alt="Mission patch of Mission {{ launch.mission_name}}"
         />
 
@@ -19,14 +19,14 @@
           {{ launch.mission_name}}
         </mat-card-title>
         <mat-card-subtitle>
-          {{ launch.rocket.rocket_name }}
+          {{ launch.rocket?.rocket_name }}
         </mat-card-subtitle>
       </mat-card-header>
       <!-- End Card Header -->
 
       <!-- Video needs sanitazion before use on iframe -->
-      <ng-container *ngIf="launch.links.video_link">
-        <iframe [src]="sanitizeVideoURL(launch.links.video_link)" loading="lazy" title="Youtube video of {{ launch.mission_name}}" frameborder="0" allowfullscreen></iframe>
+      <ng-container *ngIf="launch.links?.video_link">
+        <iframe [src]="sanitizeVideoURL(launch.links?.video_link!)" loading="lazy" title="Youtube video of {{ launch.mission_name}}" frameborder="0" allowfullscreen></iframe>
       </ng-container>
 
       <!-- Luanch Stats-->

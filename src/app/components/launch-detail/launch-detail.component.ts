@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { LaunchDetailGQL } from '../../services/spacexGraphql.services';
+import { LaunchDetailGQL, Launch } from '../../services/spacexGraphql.services';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
@@ -26,7 +26,7 @@ export class LaunchDetailComponent implements OnInit {
   });
 
   // Launch Details object, graphQL response will be held here.
-  launch = {};
+  launch: Launch = {};
 
   constructor(
     private launcheDetailService: LaunchDetailGQL,

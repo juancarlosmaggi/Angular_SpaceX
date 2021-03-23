@@ -4,7 +4,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { LaunchesPastListGQL } from '../../services/spacexGraphql.services';
+import {
+  LaunchesPastListGQL,
+  Launch,
+} from '../../services/spacexGraphql.services';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -22,7 +25,7 @@ export class LaunchesPastListComponent implements OnInit {
     limit: this.limit,
     offset: 0,
   });
-  launchesPastList: any[] = [];
+  launchesPastList: Launch[] = [];
 
   constructor(
     private launchesPastListService: LaunchesPastListGQL,
@@ -36,7 +39,7 @@ export class LaunchesPastListComponent implements OnInit {
   ngOnInit(): void {
     this.launchesPastListQuery.valueChanges.subscribe(({ data, loading }) => {
       this.loading = loading;
-      this.launchesPastList = data.launchesPast!;
+      this.launchesPastList = data.launchesPast as Launch[];
       this.update();
     });
   }
@@ -79,7 +82,8 @@ export class LaunchesPastListComponent implements OnInit {
         rocket: this.rocket,
       },
     });
-    this.launchesPastList = [...this.launchesPastList, ...data.launchesPast!];
+    const new_launchesPast = data.launchesPast as Launch[];
+    this.launchesPastList = [...this.launchesPastList, ...new_launchesPast];
     this.update();
   }
 
@@ -100,7 +104,8 @@ export class LaunchesPastListComponent implements OnInit {
         rocket: this.rocket,
       },
     });
-    this.launchesPastList = [...data.launchesPast!];
+    const new_launchesPast = data.launchesPast as Launch[];
+    this.launchesPastList = [...new_launchesPast];
     this.update();
   }
 

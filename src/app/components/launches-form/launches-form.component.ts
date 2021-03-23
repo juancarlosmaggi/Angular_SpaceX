@@ -7,7 +7,11 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { LauchesFormSelectsGQL } from '../../services/spacexGraphql.services';
+import {
+  LauchesFormSelectsGQL,
+  Rocket,
+  Ship,
+} from '../../services/spacexGraphql.services';
 
 @Component({
   selector: 'app-launches-form',
@@ -31,8 +35,8 @@ export class LaunchesFormComponent implements OnInit {
   launchDetailQuery = this.launchesFormSelectService.watch();
 
   // Arrays that will hold values from the GraphQL server.
-  ships: any[] = [];
-  rockets: any[] = [];
+  ships: Ship[] = [];
+  rockets: Rocket[] = [];
 
   constructor(
     private launchesFormSelectService: LauchesFormSelectsGQL,
@@ -45,8 +49,8 @@ export class LaunchesFormComponent implements OnInit {
   ngOnInit(): void {
     this.launchDetailQuery.valueChanges.subscribe(({ data, loading }) => {
       this.loading = loading;
-      this.ships = data.ships!;
-      this.rockets = data.rockets!;
+      this.ships = data.ships as Ship[];
+      this.rockets = data.rockets as Rocket[];
       this.update();
     });
   }
